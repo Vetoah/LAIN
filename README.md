@@ -4,6 +4,8 @@ My first ever React Native project. The focus was student mental health (specifi
   <img src="https://cdn.discordapp.com/attachments/708448052301791275/1133553336981921832/FirstOb.png" width="300"/> 
   <img src="https://cdn.discordapp.com/attachments/708448052301791275/1133553377876377600/Homepage.png" width="300"/> 
   <img src="https://cdn.discordapp.com/attachments/708448052301791275/1133553432008085554/CalendarPage.png" width="300"/> 
+  <img src="https://cdn.discordapp.com/attachments/708448052301791275/1133558158145626182/Chatbot.png" width="300"/> 
+  
 </div>
 
 ## Installation

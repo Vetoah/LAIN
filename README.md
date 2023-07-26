@@ -14,6 +14,6 @@ To run it on the latest version of Expo Go, I had to upgrade the SDK (which resu
 1. Install [npm](https://nodejs.org/en/download)
 2. Run command: npm i expo-cli
 3. Clone this repo
-4. cd Amogus
+4. cd LAIN
 5. Run command: expo start
 6. Scan the QR code with the app "Expo Go" (for Android users) or the Camera app (for iOS)

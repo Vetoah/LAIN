@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Animated, Text, TouchableWithoutFeedback, Image } from "react-native";
 import { withNavigation } from 'react-navigation';
-import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 
+SplashScreen.preventAutoHideAsync();
 
 let customFonts = {
   'OpenSemi': require('../assets/fonts/OpenSans-SemiBold.ttf'),
@@ -57,6 +58,9 @@ class SecondOnboard extends Component {
   }
 
   async componentDidMount() {
+    setTimeout(async () => {
+      await SplashScreen.hideAsync();
+    }, 100);
     await this._loadFontsAsync();
   }
 
@@ -112,41 +116,38 @@ class SecondOnboard extends Component {
       ]
 
     }
-    if (this.state.fontsLoaded) {
-      return (
-        <View style={styles.container}>
-          <ImageLoader style={{ width: '100%', height: undefined, aspectRatio: 1, }} source={require('../images/AI.png')} />
-          <Text style={styles.title}>Artificial Intelligence</Text>
-          <Text style={styles.body}>Eases the stress away by doing the thinking for you.</Text>
-          <Animated.View style={[styles.background, backgroundStyle]} >
-          </Animated.View>
 
-          <TouchableWithoutFeedback onPress={() => this.buttonPress()}>
-            <View style={{
-              width: 300,
-              height: 60,
-              backgroundColor: buttonBg,
-              alignItems: "center",
-              justifyContent: "center",
-              shadowColor: "#333",
-              shadowOpacity: 0.8,
-              shadowOffset: { x: 2, y: 0 },
-              shadowRadius: 2,
-              borderWidth: 1,
-              borderColor: 'white',
-              borderRadius: 40,
-              position: 'absolute',
-              bottom: 80,
-            }}>
-              <Text style={styles.text}>Next</Text>
-            </View>
-          </TouchableWithoutFeedback>
+    return (
+      <View style={styles.container}>
+        <ImageLoader style={{ width: '100%', height: undefined, aspectRatio: 1, }} source={require('../images/AI.png')} />
+        <Text style={styles.title}>Artificial Intelligence</Text>
+        <Text style={styles.body}>Eases the stress away by doing the thinking for you.</Text>
+        <Animated.View style={[styles.background, backgroundStyle]} >
+        </Animated.View>
 
-        </View>
-      );
-    } else {
-      return <AppLoading />;
-    }
+        <TouchableWithoutFeedback onPress={() => this.buttonPress()}>
+          <View style={{
+            width: 300,
+            height: 60,
+            backgroundColor: buttonBg,
+            alignItems: "center",
+            justifyContent: "center",
+            shadowColor: "#333",
+            shadowOpacity: 0.8,
+            shadowOffset: { x: 2, y: 0 },
+            shadowRadius: 2,
+            borderWidth: 1,
+            borderColor: 'white',
+            borderRadius: 40,
+            position: 'absolute',
+            bottom: 80,
+          }}>
+            <Text style={styles.text}>Next</Text>
+          </View>
+        </TouchableWithoutFeedback>
+
+      </View>
+    );
   }
 }
 

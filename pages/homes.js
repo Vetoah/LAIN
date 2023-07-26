@@ -1,17 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Animated, StyleSheet, Text, View, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import * as Font from 'expo-font';
-import Icon from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
-import Entypo from 'react-native-vector-icons/Entypo'
-
 import * as SplashScreen from 'expo-splash-screen';
 SplashScreen.preventAutoHideAsync();
-
-
-
 
 function HomePage() {
     const navigation = useNavigation();

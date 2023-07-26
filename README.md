@@ -9,7 +9,7 @@ My first ever React Native project I had made during college. The focus was stud
 </div>
 
 ## How to run 
-1. Download the 'Expo Go' app on your phone (not required as it can be run on the web, but it was designed more mobile use)
+1. Download the 'Expo Go' app on your phone (not required as it can be run on the web, but it was designed for mobile use)
 2. Clone this repo
 3. cd LAIN
 4. Run 'expo start'

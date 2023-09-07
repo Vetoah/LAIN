@@ -17,6 +17,7 @@
     "@react-navigation/material-top-tabs": "^5.3.5",
     "@react-navigation/native": "^5.7.4",
     "@react-navigation/stack": "^5.9.1",
+    "@react-spring/native": "^9.7.3",
     "axios": "^0.21.0",
     "body-parser": "^1.19.0",
     "buffer": "^6.0.3",
@@ -27,10 +28,13 @@
     "expo-font": "~11.4.0",
     "expo-localization": "~14.3.0",
     "expo-permissions": "~14.2.1",
+    "expo-splash-screen": "~0.20.4",
     "expo-status-bar": "~1.6.0",
+    "expo-system-ui": "^2.4.0",
     "form-data": "^3.0.0",
     "formdata": "^0.10.4",
     "moment": "^2.29.1",
+    "patch-package": "^8.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.3",
@@ -62,8 +66,7 @@
     "semantic-ui-react": "^2.0.1",
     "socket.io-client": "^3.0.1",
     "styled-components": "^5.2.1",
-    "uuid": "^8.3.1",
-    "expo-splash-screen": "~0.20.4"
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

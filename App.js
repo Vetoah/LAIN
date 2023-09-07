@@ -82,24 +82,59 @@ function CreateTabs() {
   );
 }
 
-export default class App extends Component {
-  render() {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator
-          headerMode="none"
-        >
-          <Stack.Screen name="FirstOnboard" component={FirstOnboard} options={{ animationEnabled: false, }} />
-          <Stack.Screen name="SecondOnboard" component={SecondOnboard} options={{ animationEnabled: false, }} />
-          <Stack.Screen name="ThirdOnboard" component={ThirdOnboard} options={{ animationEnabled: false, }} />
-          <Stack.Screen name="Home" children={CreateTabs} />
-          <Stack.Screen name="Chatbot" component={Chatbot} options={{ gestureEnabled: true }} />
-          <Stack.Screen name="Pomodoro" component={Pomodoro} />
-          <Stack.Screen name="Meditation" component={MeditationPage} />
-          <Stack.Screen name="MedTimer" component={MedTimer} />
-        </Stack.Navigator>
+function App() {
+  return (
+    <NavigationContainer
+      theme={{ colors: { background: 'transparent' } }}
+    >
+      <Stack.Navigator
+        screenOptions={({ navigation }) => {
+          return {
+            headerShown: false,
+            detachPreviousScreen: !navigation.isFocused(),
+          }
+        }}
+      >
+        <Stack.Screen
+          name="FirstOnboard"
+          component={FirstOnboard}
+          options={{ animationEnabled: false }}
+        />
+        <Stack.Screen
+          name="SecondOnboard"
+          component={SecondOnboard}
+          options={{ animationEnabled: false }}
+        />
+        <Stack.Screen
+          name="ThirdOnboard"
+          component={ThirdOnboard}
+          options={{ animationEnabled: false }}
+        />
+        <Stack.Screen 
+        name="Home" 
+        children={CreateTabs} 
+        />
+        <Stack.Screen 
+        name="Chatbot" 
+        component={Chatbot} 
+        options={{ gestureEnabled: true }} 
+        />
+        <Stack.Screen 
+        name="Pomodoro" 
+        component={Pomodoro} 
+        />
+        <Stack.Screen 
+        name="Meditation" 
+        component={MeditationPage} 
+        />
+        <Stack.Screen 
+        name="MedTimer" 
+        component={MedTimer} 
+        />
+      </Stack.Navigator>
 
-      </NavigationContainer>
-    )
-  }
+    </NavigationContainer>
+  )
 }
+
+export default App;

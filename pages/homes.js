@@ -22,7 +22,6 @@ function HomePage() {
             'NunitoBold': require('../assets/fonts/NunitoSans-Bold.ttf'),
             'NunitoBlack': require('../assets/fonts/NunitoSans-Black.ttf'),
             'NunitoLight': require('../assets/fonts/NunitoSans-Light.ttf'),
-            'NunitoRegular': require('../assets/fonts/NunitoSans-Regular.ttf'),
             'GeorgiaBold': require('../assets/fonts/georgiabold.ttf'),
             'GeorgiaReg': require('../assets/fonts/Georgia.ttf'),
             'CoolBold': require('../assets/fonts/coolvetica-bold.ttf'),
@@ -262,8 +261,9 @@ const styles = StyleSheet.create({
         letterSpacing: 0,
         textShadowColor: 'black', // Main text color
         textShadowOffset: { width: 0, height: 0 }, // Main text offset
-        textShadowRadius: 2, // Main text shadow radius,
-        zIndex: 2
+        textShadowRadius: 1, // Main text shadow radius,
+        zIndex: 2,
+        padding:2
     },
     circle:
     {

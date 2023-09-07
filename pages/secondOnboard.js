@@ -1,162 +1,138 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Animated, Text, TouchableWithoutFeedback, Image } from "react-native";
-import { withNavigation } from 'react-navigation';
-import * as SplashScreen from 'expo-splash-screen';
+import React, { useEffect, useState, useCallback } from "react";
+import { StyleSheet, View, Image, LogBox, TouchableWithoutFeedback, Text } from "react-native";
+import { useSpring, animated, config } from '@react-spring/native'
 import * as Font from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 SplashScreen.preventAutoHideAsync();
 
-let customFonts = {
-  'OpenSemi': require('../assets/fonts/OpenSans-SemiBold.ttf'),
-  'OpenReg': require('../assets/fonts/OpenSans-Regular.ttf'),
-  'OpenExtra': require('../assets/fonts/OpenSans-ExtraBold.ttf'),
-  'OpenBold': require('../assets/fonts/OpenSans-Bold.ttf'),
-};
+function SecondOnboard() {
+  const navigation = useNavigation();
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-class ImageLoader extends Component {
-  state = {
-    opacity: new Animated.Value(0)
-  }
-  onLoad = () => {
-    Animated.timing(this.state.opacity, {
-      toValue: 1,
-      duration: 250,
-      useNativeDriver: true
-    }).start();
-  }
-  render() {
-    return (
-      <Animated.Image
-        onLoad={this.onLoad}
-        {...this.props}
-        style={[
-          {
-            opacity: this.state.opacity,
-            transform: [
-              {
-                scale: this.state.opacity.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [.85, 1]
-                })
-              }
-            ]
-          },
-          this.props.style
-        ]} />
-    )
-  }
-}
-
-
-
-class SecondOnboard extends Component {
-  state = {
-    toggle: true,
-    animation: new Animated.Value(0),
-    fontsLoaded: false,
-
-  }
-
-  async componentDidMount() {
-    setTimeout(async () => {
-      await SplashScreen.hideAsync();
-    }, 100);
-    await this._loadFontsAsync();
-  }
-
-  _loadFontsAsync = async () => {
-    await Font.loadAsync(customFonts);
-    this.setState({ fontsLoaded: true });
+  const loadFontsAsync = async () => {
+    await Font.loadAsync({
+      'NunitoBlack': require('../assets/fonts/NunitoSans-Black.ttf'),
+      'NunitoLight': require('../assets/fonts/NunitoSans-Light.ttf'),
+      'NunitoRegular': require('../assets/fonts/NunitoSans-Regular.ttf'),
+    });
   };
 
-  toggleOpen = () => {
+  const [toggle, setToggle] = useState(false)
+  const [viewToggle, setViewToggle] = useState(false) 
 
-
-    Animated.timing(this.state.animation, {
-      useNativeDriver: false,
-      toValue: 1,
-      duration: 10,
-
-    }).start()
+  const buttonPress = () => {
+    setToggle(true)
     setTimeout(() => {
-      this.props.navigation.navigate("ThirdOnboard")
-    }, 300);
-
+      navigation.navigate("ThirdOnboard")
+    }, 500);
   }
 
-  changeColor() {
-    const newState = !this.state.toggle;
-    this.setState({ toggle: newState })
-  }
+  const fillAnim = useSpring({
+    from: { x: '0%' },
+    to: { x: toggle ? '200%' : '0%' },
+    config: toggle ? config.molasses : config.stiff,
+  });
 
-  buttonPress() {
-    this.toggleOpen();
-    this.changeColor();
-  }
+  const backgroundStyle = useSpring({
+    backgroundColor: '#76A29E',
+    position: 'absolute',
+    borderRadius: 1000,
+    bottom: toggle ? -80 : 80,
+    zIndex: 1,
+    config: toggle ? config.slow : config.stiff
 
+  })
 
-  render() {
+  const buttonStyle = useSpring({
+    width: 300,
+    height: 60,
+    backgroundColor: toggle ? "#76A29E" : "#246A5D" ,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#333",
+    shadowOpacity: 0.8,
+    shadowOffset: { x: 2, y: 0 },
+    shadowRadius: 2,
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 40,
+    position: 'absolute',
+    bottom: 80,
+    zIndex: 2,
+  })
 
+  const viewStyle = useSpring({
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: viewToggle ? 1 : 0,
+    marginTop: viewToggle ? 0 : 50,
+    config: config.slow,
+    
+  })
+  const isFocused = useIsFocused();
 
-    const { toggle } = this.state;
-    const buttonBg = toggle ? "#246A5D" : "#76A29E";
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await loadFontsAsync();
 
-    const scaleInterpolate = this.state.animation.interpolate(
-      {
-        inputRange: [0, 1],
-        outputRange: [0, 50]
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setDataLoaded(true);
       }
-
-    )
-    const backgroundStyle = {
-      transform: [
-        {
-          scale: scaleInterpolate,
-        }
-      ]
-
     }
 
-    return (
-      <View style={styles.container}>
-        <ImageLoader style={{ width: '100%', height: undefined, aspectRatio: 1, }} source={require('../images/AI.png')} />
+    prepare();
+    if (isFocused) {
+      setViewToggle(true)
+    } else {
+      setTimeout(() => {
+        setViewToggle(false)
+        setToggle(false)
+      }, 500);
+    }
+  }, [isFocused]);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (dataLoaded) {
+
+      await SplashScreen.hideAsync();
+    }
+  }, [dataLoaded]);
+
+  if (!dataLoaded) {
+    return null;
+  }
+
+  return isFocused || toggle ?
+    <View style={styles.container} onLayout={onLayoutRootView}>
+      <animated.View style={{ ...viewStyle }}>
+        <Image style={{ width: '100%', height: 'auto', aspectRatio: 1, }} source={require('../images/AI.png')} />
         <Text style={styles.title}>Artificial Intelligence</Text>
         <Text style={styles.body}>Eases the stress away by doing the thinking for you.</Text>
-        <Animated.View style={[styles.background, backgroundStyle]} >
-        </Animated.View>
+        <animated.View style={{ height: fillAnim.x, width: fillAnim.x, ...backgroundStyle }} />
+      </animated.View>
 
-        <TouchableWithoutFeedback onPress={() => this.buttonPress()}>
-          <View style={{
-            width: 300,
-            height: 60,
-            backgroundColor: buttonBg,
-            alignItems: "center",
-            justifyContent: "center",
-            shadowColor: "#333",
-            shadowOpacity: 0.8,
-            shadowOffset: { x: 2, y: 0 },
-            shadowRadius: 2,
-            borderWidth: 1,
-            borderColor: 'white',
-            borderRadius: 40,
-            position: 'absolute',
-            bottom: 80,
-          }}>
-            <Text style={styles.text}>Next</Text>
-          </View>
-        </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={() => buttonPress()}>
+        <animated.View style={{ ...buttonStyle }}>
+          <Text style={styles.text}>Next</Text>
+        </animated.View>
+      </TouchableWithoutFeedback>
 
-      </View>
-    );
-  }
+
+    </View>
+  : null
 }
-
-export default withNavigation(SecondOnboard);
+export default SecondOnboard
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     backgroundColor: '#246A5D',
     justifyContent: 'center',
     alignItems: 'center',
